@@ -101,9 +101,17 @@ options()$repos
 16. Install user-level packages. I recommend the following:
 
 ```{r eval=FALSE}
-install.packages("tidyverse")
-install.packages("devtools")
-install.packages("renv")
+install.packages("tidyverse", "devtools", "renv")
+```
+
+If using R in VSCode, I also recommend the following:
+
+```{r eval=FALSE}
+install.packages("languageserver", repos = c(
+    reditorsupport = "https://reditorsupport.r-universe.dev",
+    getOption("repos")
+))
+install.packages("httpgd")
 ```
 
 ## A Note on project-level packages
