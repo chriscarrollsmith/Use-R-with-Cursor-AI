@@ -1,0 +1,129 @@
+---
+title: "R Setup"
+author: "Christopher Smith"
+date: 2024-10-07
+output:
+  html_document:
+---
+
+## Installing R and an IDE
+
+1. Install R for your operating system from [CRAN](https://cran.r-project.org/).
+
+2. (Optional but recommended) Install an R-friendly Integrated Development Environment (IDE):
+- [RStudio](https://www.rstudio.com/products/rstudio/download/) - the classic choice with lots of user-friendly R tooling
+- [Cursor](https://cursor.com/) with the [R extension](https://marketplace.visualstudio.com/items?itemName=REditorSupport.r) and the [Quarto extension](https://marketplace.visualstudio.com/items?itemName=quarto.quarto) - full-featured AI-first IDE based on VSCode
+- [Positron](https://github.com/posit-dev/positron/releases) - Experimental RStudio successor forked from VSCode with robust R and Quarto support
+
+3. Open an R terminal (optionally in your IDE).
+
+## Setting up the R library path
+
+4. Create a file called `.Renviron` in your home directory by running:
+
+```{r eval=FALSE}
+file.create(file.path(Sys.getenv("HOME"), ".Renviron"))
+```
+
+5. Open the `.Renviron` file in your default text editor by running:
+
+```{r eval=FALSE}
+file.edit(file.path(Sys.getenv("HOME"), ".Renviron"))
+```
+
+6. Add the following to your `.Renviron` file, replacing `{version}` with the version of R you have installed:
+
+```{r eval=FALSE}
+R_LIBS_USER=~/Documents/R/library/{version}
+```
+
+This is the path to the library where R will install user-level packages for this version of R. Make sure to save the `.Renviron` file when you are finished editing it.
+
+7. Load the `.Renviron` file by running:
+
+```{r eval=FALSE}
+readRenviron("~/.Renviron")
+```
+
+8. Create the library directory if it doesn't exist by running:
+
+```{r eval=FALSE}
+dir.create(Sys.getenv("R_LIBS_USER"), recursive = TRUE)
+```
+
+9. Run the following command to verify that the library path was set correctly:
+
+```{r eval=FALSE}
+.libPaths()
+```
+
+## Setting up the R profile
+
+10. To ensure that `.Renviron` is sourced on R startup, create a file called `.Rprofile` in your home directory by running:
+
+```{r eval=FALSE}
+file.create(file.path(Sys.getenv("HOME"), ".Rprofile"))
+```
+
+11. Edit the `.Rprofile` file in your default text editor by running:
+
+```{r eval=FALSE}
+file.edit(file.path(Sys.getenv("HOME"), ".Rprofile"))
+```
+
+12. To load the `.Renviron` file on startup, add the following to your `.Rprofile`:
+
+```{r eval=FALSE}
+if (file.exists("~/.Renviron")) {
+  readRenviron("~/.Renviron")
+}
+```
+
+This ensures that the `.Renviron` file is read when R is started.
+
+13. To prevent R from always prompting you to choose a mirror when you install packages, also add the following to your `.Rprofile` (replace the URL with that of [your favorite CRAN mirror](https://cran.r-project.org/mirrors.html)):
+
+```{r eval=FALSE}
+options(repos = c(CRAN = "https://lib.stat.cmu.edu/R/CRAN/"))
+```
+
+14. Save the `.Rprofile` file and restart R by closing and reopening the terminal.
+
+15. Run the following command to verify that the user profile was set up correctly:
+
+```{r eval=FALSE}
+.libPaths()
+options()$repos
+```
+
+## Installing user-level packages
+
+16. Install user-level packages. I recommend the following:
+
+```{r eval=FALSE}
+install.packages("tidyverse")
+install.packages("devtools")
+install.packages("renv")
+```
+
+## A Note on project-level packages
+
+17. I recommend using the [renv](https://rstudio.github.io/renv/articles/renv.html) package to manage project-level packages rather than installing them directly into the user library. This allows you to isolate project-specific dependencies to avoid conflicts with the user-level setup and to ensure reproducible builds across different systems.
+
+    a. To initialize renv in a project, run the following command in the root of your project:
+
+    ```{r eval=FALSE}
+    renv::init()
+    ```
+
+    This will create a lockfile called `renv.lock`, an `renv/library` directory, and a project-specific `.Rprofile` that will activate renv when you open R from within the project folder.
+
+    b. You can now install project-level packages not just from CRAN, but also from GitHub and Bioconductor, using `renv::install()`.
+
+    c. With your libraries installed, run `renv::snapshot()` to update the `renv.lock` file, and make sure to commit the `renv.lock` file to git.
+
+    d. Anyone cloning your repository will be able to install the exact same versions of the packages you used by running `renv::restore()`. This prevents random package updates from breaking your builds.
+
+    e. Update the `renv.lock` file periodically by running `renv::update()`. If it breaks your build, you can always roll back the update with `renv::revert()`.
+
+    f. For perfect reproducibility, combine with [Docker](https://www.docker.com/).
