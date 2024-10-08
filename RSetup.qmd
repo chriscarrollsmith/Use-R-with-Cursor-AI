@@ -104,7 +104,7 @@ options()$repos
 install.packages("tidyverse", "devtools", "renv")
 ```
 
-If using R in VSCode, I also recommend the following:
+If using R in Cursor or VSCode, I also recommend the following:
 
 ```{r eval=FALSE}
 install.packages("languageserver", repos = c(
