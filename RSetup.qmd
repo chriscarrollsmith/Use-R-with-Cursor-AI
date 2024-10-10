@@ -101,7 +101,7 @@ options()$repos
 16. Install user-level packages. I recommend the following:
 
 ```{r eval=FALSE}
-install.packages("tidyverse", "devtools", "pandoc", "renv")
+install.packages("tidyverse", "devtools", "renv")
 ```
 
 If using R in Cursor or VSCode, I also recommend the following:
