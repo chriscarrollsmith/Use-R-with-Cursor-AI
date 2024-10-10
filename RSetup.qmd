@@ -11,9 +11,10 @@ output:
 1. Install R for your operating system from [CRAN](https://cran.r-project.org/).
 
 2. (Optional but recommended) Install an R-friendly Integrated Development Environment (IDE):
-- [RStudio](https://www.rstudio.com/products/rstudio/download/) - the classic choice with lots of user-friendly R tooling
-- [Cursor](https://cursor.com/) with the [R extension](https://marketplace.visualstudio.com/items?itemName=REditorSupport.r) and the [Quarto extension](https://marketplace.visualstudio.com/items?itemName=quarto.quarto) - full-featured AI-first IDE based on VSCode
-- [Positron](https://github.com/posit-dev/positron/releases) - Experimental RStudio successor forked from VSCode with robust R and Quarto support
+  - [RStudio](https://www.rstudio.com/products/rstudio/download/) - the classic choice with lots of user-friendly R tooling
+  - [Cursor](https://cursor.com/) with the [R extension](https://marketplace.visualstudio.com/items?itemName=REditorSupport.r) and the [Quarto extension](https://marketplace.visualstudio.com/items?itemName=quarto.quarto) - full-featured AI-first IDE based on VSCode
+    - If using Cursor: also [install pandoc](https://pandoc.org/installing.html) and make sure it's added to your system PATH. (Pandoc comes bundled with RStudio and Positron but not with Cursor.)
+  - [Positron](https://github.com/posit-dev/positron/releases) - Experimental RStudio successor forked from VSCode with robust R and Quarto support
 
 3. Open an R terminal (optionally in your IDE).
 
